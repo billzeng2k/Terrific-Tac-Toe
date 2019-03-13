@@ -1,5 +1,8 @@
 const size = 3;
 
+// Player
+// A class to store all the information about the current player
+// The computer field is to determine whether or not the player is an AI
 class Player {
     constructor(name, symbol, computer) {
         this.name = name;
@@ -8,17 +11,16 @@ class Player {
     }
 }
 
+// Cell
+// Creates a tile and appends it to the board
 class Cell {
-    constructor() {
-
-    }
-
     render(game, context, x, y) {
         var cell = document.createElement("div");
         cell.classList.add("col-4");
         cell.classList.add("tile");
         this.image = document.createElement("img");
         this.image.src = "../img/empty.png";
+        // If the cell is pressed, and it is not an AI's turn, then change the slot
         cell.addEventListener("click", () => { 
             if(!game.players[game.currentPlayer].computer) 
                 game.setSlot(x, y);
@@ -27,11 +29,14 @@ class Cell {
         context.appendChild(cell);
     }
 
+    // Changes the image of the tile
     changeImage(image) {
         this.image.src = image;
     }
 }
 
+// Turn Indicator
+// Indicates whose turn it is via image on the corners of the screen
 class TurnIndicator {
     constructor(symbol, name) {
         this.symbol = symbol;
@@ -69,6 +74,8 @@ class TurnIndicator {
     }
 }
 
+// GameBoard
+// The main board where all elements are appended onto
 class GameBoard {
     constructor(player1, player2, container) {
         this.currentPlayer = Math.floor(Math.random() * 2);
@@ -85,6 +92,7 @@ class GameBoard {
         }
     }
 
+    // Checks if the player has won diagonally (top left to bottom right)
     checkDiagonal(player) {
         for(var i = 0; i < size; i++) 
             if(this.state[i][i] != player) 
@@ -92,13 +100,15 @@ class GameBoard {
         return true;
     }
 
+    // Checks if the player has won diagonally (top right to bottom left)
     checkReverseDiagonal(player) {
         for(var i = 0; i < size; i++) 
             if(this.state[size - 1 - i][i] != player) 
                 return false;
         return true;
     }
-
+    
+    // Checks if the player has 3 in a row in a specfic row
     checkRow(player, x) {
         for(var i = 0; i < size; i++) 
             if(this.state[x][i] != player)
@@ -106,6 +116,7 @@ class GameBoard {
         return true;
     }
 
+    // Checks if the player has 3 in a column in a specific column
     checkColumn(player, y) {
         for(var i = 0; i < size; i++) 
             if(this.state[i][y] != player)
@@ -113,15 +124,17 @@ class GameBoard {
         return true;
     }
 
+    // Changes the current player number, if the next player is an AI, automatically perform its move
     changePlayer() {
         this.playerTurnDisplay[this.currentPlayer].notMyTurn();
         this.currentPlayer = (this.currentPlayer + 1) % 2;
         this.playerTurnDisplay[this.currentPlayer].myTurn();
-        console.log(this.players[this.currentPlayer].computer);
         if(this.players[this.currentPlayer].computer)
             setTimeout(() => this.setRandomSlot(), 1000);
     }
 
+    // Generates a number between [0, 8], each number corresponding to a different tile
+    // Then increase the number by one until an open slot is found
     setRandomSlot() {
         var ran = Math.floor(Math.random() * 9);
         while(this.state[Math.floor(ran / 3)][ran % 3] != -1)
@@ -129,6 +142,7 @@ class GameBoard {
         this.setSlot(Math.floor(ran / 3), ran % 3);
     }
 
+    // Sets the image of a slot and then checks if the player has won off that move
     setSlot(x, y) {
         if(this.state[x][y] != -1 || !this.playing) 
             return;
@@ -145,6 +159,7 @@ class GameBoard {
             this.changePlayer();
     }
 
+    // Checks for the two diagonal wins, and one row and column win
     checkWin(player, x, y) {
         if(this.checkDiagonal(player)) {
             var dbar = document.createElement("div");
@@ -171,15 +186,15 @@ class GameBoard {
         }
         return false;
     }
-
     render() {
+        // Adding board container
         this.board = document.createElement("div");
         this.board.classList.add("col-xl-4");
         this.board.classList.add("col-md-5");
         this.board.classList.add("mx-auto");
         this.board.classList.add("board");
 
-        //adding tic tac toe grid
+        // Adding tic tac toe grid
         var hbar1 = document.createElement("div");
         hbar1.classList.add("h-bar");
         hbar1.style.left = "33%";
@@ -197,6 +212,7 @@ class GameBoard {
         this.board.appendChild(vbar1);
         this.board.appendChild(vbar2);
 
+        // Adding Cells
         for(var i = 0; i < size; i++) {
             var row = document.createElement("div");
             row.classList.add("row");
@@ -209,6 +225,7 @@ class GameBoard {
 
         this.container.appendChild(this.board);
 
+        // Adding player turn displays
         this.playerTurnDisplay = [new TurnIndicator(this.players[0].symbol, this.players[0].name), new TurnIndicator(this.players[1].symbol, this.players[1].name)];
         this.playerTurnDisplay[0].render(document.body);
         this.playerTurnDisplay[1].render(document.body);
@@ -221,6 +238,7 @@ class GameBoard {
 }
 
 $(document).ready(function() {
+    //Checks whether or not the game is a multiplayer or singleplayer game, and then builds the board accordingly
     var multiplayer = document.getElementById("multiplayer");
     var singleplayer = document.getElementById("singleplayer");
     if(multiplayer == null)
