@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+    font-family: 'Sniglet', cursive;
+    background-color: rgb(173, 228, 253);
+}
+
+.vertical-align-center-block {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.title {
+    text-align: center;
+    font-size: 12vw;
+}
+
+a, a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.button {
+    margin: 1rem 0;
+    font-size: 7vmin;
+    text-align: center;
+    border: 0.5vmin black solid;
+    border-radius: 100vw;
+    transition: transform 0.2s ease-out;
+    background-color: #ffb1dc;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}

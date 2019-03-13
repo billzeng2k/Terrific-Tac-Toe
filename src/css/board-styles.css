@@ -1,0 +1,98 @@
+.h-bar {
+    position: absolute;
+    height: 100%;
+    background-color: black;
+    width: 0.75vmin;
+    border-radius: 100em;
+    transform: translateX(-0.5vmin);
+    z-index: 1;
+}
+
+.v-bar {
+    position: absolute;
+    width: 100%;
+    background-color: black;
+    height: 0.75vmin;
+    border-radius: 100em;
+    z-index: 1;
+}
+
+.d-bar {
+    position: absolute;
+    width: 140%;
+    background-color: black;
+    height: 0.75vmin;
+    transform: rotate(46.5deg);
+    transform-origin: 0% 0%;
+    border-radius: 100em;
+    z-index: 1;
+}
+
+.dv-bar {
+    position: absolute;
+    width: 140%;
+    background-color: black;
+    height: 0.75vmin;
+    transform: translateX(-28.57%) rotate(-46.5deg);
+    transform-origin: 100% 0%;
+    border-radius: 100em;
+    z-index: 1;
+}
+
+.board {
+    position: relative;
+    padding: 0;
+}
+
+.tile {
+    padding: 1em;
+}
+
+.tile img {
+    width: 100%;
+}
+
+.reset {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+
+#outcome {
+    position: fixed;
+    top: 3vh;
+    width: 100%;
+    text-align: center;
+    font-size: 10vmin;
+}
+
+.turn-indicator {
+    position: fixed;
+    top: 3vh;
+    width: 15vmin;
+    transition: opacity 0.2s ease-out;
+    text-align: center;
+}
+
+.turn-indicator img {
+    width: 100%;
+}
+
+.turn-indicator p {
+    font-size: 3vmin;
+}
+
+.hide {
+    opacity: 0.2;
+}
+
+.bob {
+    animation: bob 1s alternate infinite;
+}
+
+@keyframes bob {
+    from {transform: scale(1)}
+    to {transform: scale(1.1)}
+  }
+  
