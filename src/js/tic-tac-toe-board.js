@@ -191,6 +191,7 @@ class GameBoard {
         this.board = document.createElement("div");
         this.board.classList.add("col-xl-4");
         this.board.classList.add("col-md-5");
+        this.board.classList.add("col-sm-6");
         this.board.classList.add("mx-auto");
         this.board.classList.add("board");
 
